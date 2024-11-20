@@ -1,0 +1,60 @@
+.container-fluid {
+  background-color: #141414;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+
+  .card {
+    background-color: transparent;
+    border: 2px solid #262626;
+    color: #fff;
+    border-radius: 10px;
+
+    img {
+      border-radius: 10px;
+    }
+
+    a {
+      &.product-category {
+        border: 1px solid #262626;
+        padding: 15px;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 25px;
+        background-color: #1a1a1a;
+      }
+    }
+
+    .product-price-and-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .price {
+        p {
+          margin: 0;
+        }
+      }
+      a {
+        background-color: #753ff1;
+        border: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

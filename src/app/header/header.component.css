@@ -1,0 +1,43 @@
+header {
+  border-bottom: 2px solid #262626;
+}
+nav {
+  background-color: #141414 !important;
+
+  .logo {
+    font-size: 30px;
+  }
+
+  #collapsibleNavbar {
+    flex-grow: initial;
+    border: 2px solid #262626;
+    border-radius: 20px;
+    padding: 0 20px;
+    margin: 10px 0;
+    ul {
+      li {
+        a {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .navbar-icons {
+    ul {
+      li {
+        border: 2px solid #262626;
+        border-radius: 8px;
+
+        a {
+          padding: 5px;
+          color: #fff;
+
+          &:last-child {
+            padding: 3px 5px;
+          }
+        }
+      }
+    }
+  }
+}
