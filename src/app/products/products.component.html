@@ -1,29 +1,62 @@
-<div class="container-fluid p-5">
+<div class="container-fluid py-5">
   <div class="container">
-    <div class="grid">
-      <div class="card p-4" *ngFor="let product of products">
-        <img
-          class="card-img-top"
-          [src]="product.images[1]"
-          [alt]="product.title"
+    <form class="pb-4">
+      <div class="search">
+        <input
+          type="text"
+          name="seacrh"
+          placeholder="Search..."
+          [(ngModel)]="listFilter"
         />
-        <div class="card-body p-0 pt-5">
-          <h5 class="card-title">{{ product.title }}</h5>
-          <p class="card-text mb-5">
-            {{ product.description.split(" ").slice(0, 5).join(" ") }}
-            <a href="">Read More</a>
-          </p>
-          <a href="" class="product-category">
-            {{ product.category.name }}
-          </a>
-          <div class="product-price-and-button mt-5">
-            <div class="price">
-              <p>Price</p>
-              <p>{{ product.price | currency }}</p>
+        <a class="search-button">
+          <i class="bi bi-search"></i>
+        </a>
+      </div>
+    </form>
+    <div class="grid-and-categories">
+      <div class="grid">
+        <div class="card p-4" *ngFor="let product of filteredProducts">
+          <img
+            class="card-img-top"
+            [src]="product.images[0]"
+            [alt]="product.title"
+          />
+          <div class="card-body p-0 pt-5">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text mb-5">
+              {{ product.description.split(" ").slice(0, 4).join(" ") }}
+              <a href="">Read More</a>
+            </p>
+            <a href="" class="product-category">
+              {{ product.category }}
+            </a>
+            <div class="product-price-and-button mt-5">
+              <div class="price">
+                <p>Price</p>
+                <p>{{ product.price | currency }}</p>
+              </div>
+              <a href="#" class="btn btn-primary px-4">Add To Cart</a>
             </div>
-            <a href="#" class="btn btn-primary px-4">Add To Cart</a>
           </div>
         </div>
+      </div>
+      <div class="categories">
+        <div class="heading">
+          <i class="bi bi-ui-checks-grid"></i>
+          <h5>Categories:</h5>
+        </div>
+        <ul>
+          <li class="active">
+            <a href="">All</a>
+          </li>
+          <li
+            *ngFor="let categorie of productCategories"
+            [ngClass]="{ active: activeCategory === categorie }"
+            (click)="setActiveCategory(categorie)"
+          >
+            <a>{{ categorie | capitalize }}</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
