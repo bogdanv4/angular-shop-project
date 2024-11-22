@@ -28,7 +28,7 @@
               <a href="">Read More</a>
             </p>
             <a href="" class="product-category">
-              {{ product.category }}
+              {{ product.category | capitalize }}
             </a>
             <div class="product-price-and-button mt-5">
               <div class="price">
@@ -58,6 +58,23 @@
           </li>
         </ul>
       </div>
+    </div>
+    <div class="pagination">
+      <button
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+      <button
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
     </div>
   </div>
 </div>

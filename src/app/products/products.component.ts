@@ -19,10 +19,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
   sub!: Subscription;
   productCategories: string[] = [];
   sub2!: Subscription;
+  sub3!: Subscription;
   activeCategory: string = '';
 
   private _listFilter: string = '';
   filteredProducts: IProduct[] = [];
+
+  // Pagination variables
+  currentPage: number = 1;
+  limit: number = 9;
+  totalProducts: number = 0;
 
   get listFilter(): string {
     return this._listFilter;
@@ -36,13 +42,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.sub = this.productService.getProducts().subscribe({
-      next: (products: any) => {
-        this.products = products.products;
-        this.filteredProducts = this.products;
-      },
-      error: (err) => (this.errorMessage = err),
-    });
+    // this.sub = this.productService.getProducts().subscribe({
+    //   next: (products: any) => {
+    //     this.products = products.products;
+    //     this.filteredProducts = this.products;
+    //   },
+    //   error: (err) => (this.errorMessage = err),
+    // });
+
+    this.loadProducts();
 
     this.sub2 = this.productService.getCategories().subscribe({
       next: (categories: any) => {
@@ -55,6 +63,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
     this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
   }
 
   performFilter(value: string): IProduct[] {
@@ -66,5 +75,40 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   setActiveCategory(category: string): void {
     this.activeCategory = category;
+    this.currentPage = 1; // Reset to the first page for the new category
+    this.loadProducts();
+
+    this.sub3 = this.productService
+      .getProductsByCategories(this.activeCategory)
+      .subscribe({
+        next: (products: any) => {
+          this.products = products.products;
+          this.filteredProducts = this.products;
+        },
+        error: (err) => (this.errorMessage = err),
+      });
+  }
+
+  loadProducts(): void {
+    const skip = (this.currentPage - 1) * this.limit;
+    this.sub = this.productService
+      .getProductsWithPagination(this.limit, skip)
+      .subscribe({
+        next: (products: any) => {
+          this.products = products.products;
+          this.filteredProducts = this.products;
+          this.totalProducts = products.total;
+        },
+        error: (err) => (this.errorMessage = err),
+      });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadProducts();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalProducts / this.limit);
   }
 }

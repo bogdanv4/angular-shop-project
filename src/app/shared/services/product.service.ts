@@ -9,6 +9,8 @@ import { IProduct } from '../models/product';
 export class ProductService {
   private urlProducts = 'https://dummyjson.com/products';
   private urlCategories = 'https://dummyjson.com/products/category-list';
+  // private urlProductsByCategorie =
+  //   'https://dummyjson.com/products/category/smartphones';
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +26,29 @@ export class ProductService {
       tap((data) => console.log('All', JSON.stringify(data))),
       catchError(this.handleError)
     );
+  }
+
+  getProductsByCategories(category: string): Observable<IProduct[]> {
+    return this.http
+      .get<IProduct[]>(`https://dummyjson.com/products/category/${category}`)
+      .pipe(
+        tap((data) => console.log('All', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getProductsWithPagination(
+    limit: number,
+    skip: number
+  ): Observable<IProduct[]> {
+    return this.http
+      .get<IProduct[]>(
+        `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
+      )
+      .pipe(
+        tap((data) => console.log('All', JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {
