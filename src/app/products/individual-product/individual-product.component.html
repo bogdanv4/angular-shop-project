@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="left col">
+        <div class="row">
+          <div class="col-3">
+            <div class="grid">
+              <div class="grid-item">
+                <img [src]="product.images[0]" [alt]="product.title" />
+              </div>
+              <div class="grid-item">
+                <img [src]="product.images[1]" [alt]="product.title" />
+              </div>
+              <div class="grid-item">
+                <img [src]="product.images[2]" [alt]="product.title" />
+              </div>
+            </div>
+          </div>
+          <div class="col-9 main-image-holder">
+            <img [src]="product.thumbnail" [alt]="product.title" />
+          </div>
+        </div>
+      </div>
+      <div class="right col">
+        <div class="product-details">
+          <h1 class="title mb-5">{{ product.title }}</h1>
+          <a href="" class="product-category mb-5">
+            {{ product.category | capitalize }}
+          </a>
+          <p class="details">
+            {{ product.description }}
+          </p>
+          <div class="product-price-and-button">
+            <div class="price">
+              <p>
+                Price <br />
+                <span class="number">{{ product.price | currency }}</span>
+              </p>
+              <p></p>
+            </div>
+            <a href="#" class="btn btn-primary px-4">Add To Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,11 +5,18 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, CapitalizePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    CapitalizePipe,
+    RouterLink,
+    RouterOutlet,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -25,7 +32,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private _listFilter: string = '';
   filteredProducts: IProduct[] = [];
 
-  // Pagination variables
   currentPage: number = 1;
   limit: number = 9;
   totalProducts: number = 0;
@@ -61,9 +67,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
-    this.sub2.unsubscribe();
-    this.sub3.unsubscribe();
+    // this.sub.unsubscribe();
+    // this.sub2.unsubscribe();
+    // this.sub3.unsubscribe();
   }
 
   performFilter(value: string): IProduct[] {
@@ -75,7 +81,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   setActiveCategory(category: string): void {
     this.activeCategory = category;
-    this.currentPage = 1; // Reset to the first page for the new category
+    this.currentPage = 1;
     this.loadProducts();
 
     this.sub3 = this.productService

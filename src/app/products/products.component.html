@@ -18,14 +18,14 @@
         <div class="card p-4" *ngFor="let product of filteredProducts">
           <img
             class="card-img-top"
-            [src]="product.images[0]"
+            [src]="product.thumbnail"
             [alt]="product.title"
           />
           <div class="card-body p-0 pt-5">
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text mb-5">
               {{ product.description.split(" ").slice(0, 4).join(" ") }}
-              <a href="">Read More</a>
+              <a [routerLink]="['/products', product.id]">Read More</a>
             </p>
             <a href="" class="product-category">
               {{ product.category | capitalize }}
@@ -78,3 +78,4 @@
     </div>
   </div>
 </div>
+<router-outlet />

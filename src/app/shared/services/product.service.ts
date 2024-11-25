@@ -9,13 +9,18 @@ import { IProduct } from '../models/product';
 export class ProductService {
   private urlProducts = 'https://dummyjson.com/products';
   private urlCategories = 'https://dummyjson.com/products/category-list';
-  // private urlProductsByCategorie =
-  //   'https://dummyjson.com/products/category/smartphones';
 
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(this.urlProducts).pipe(
+      tap((data) => console.log('All', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  getSingleProduct(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(`https://dummyjson.com/products/${id}`).pipe(
       tap((data) => console.log('All', JSON.stringify(data))),
       catchError(this.handleError)
     );
