@@ -6,6 +6,9 @@ import {
   loadCategories,
   loadCategoriesSuccess,
   loadCategoriesFailure,
+  loadProductsByCategories,
+  loadProductsByCategoriesSuccess,
+  loadProductsByCategoriesFailure,
 } from '../actions/products.actions';
 import { IProduct } from '../../shared/models/product';
 
@@ -48,6 +51,19 @@ export const productsReducer = createReducer(
     error: null,
   })),
   on(loadCategoriesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(loadProductsByCategories, (state) => ({ ...state, loading: true })),
+  on(loadProductsByCategoriesSuccess, (state, { products, total }) => ({
+    ...state,
+    products,
+    totalProducts: total,
+    loading: false,
+    error: null,
+  })),
+  on(loadProductsByCategoriesFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,

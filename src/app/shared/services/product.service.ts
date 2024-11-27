@@ -28,12 +28,12 @@ export class ProductService {
     );
   }
 
-  // getCategories(): Observable<string[]> {
-  //   return this.http.get<string[]>(this.urlCategories).pipe(
-  //     tap((data) => console.log('All', JSON.stringify(data))),
-  //     catchError(this.handleError)
-  //   );
-  // }
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(this.urlCategories).pipe(
+      tap((data) => console.log('All', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
 
   getProductsByCategories(category: string): Observable<IProduct[]> {
     return this.http
@@ -56,15 +56,6 @@ export class ProductService {
         tap((data) => console.log('All', JSON.stringify(data))),
         catchError(this.handleError)
       );
-  }
-  // getProductsWithPagination(limit: number, skip: number): Observable<any> {
-  //   return this.http.get<any>(
-  //     `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
-  //   );
-  // }
-
-  getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(this.urlCategories);
   }
 
   private handleError(err: HttpErrorResponse) {

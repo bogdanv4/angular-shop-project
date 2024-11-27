@@ -7,13 +7,15 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { productsReducer } from './state/reducers/products.reducer';
 import { ProductsEffects } from './state/effects/products.effects';
+import { singleProductReducer } from './state/reducers/single-product.reducer';
+import { SingleProductEffects } from './state/effects/single-product.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ products: productsReducer }),
-    provideEffects([ProductsEffects]),
+    provideStore({ products: productsReducer, product: singleProductReducer }),
+    provideEffects(ProductsEffects, SingleProductEffects),
   ],
 };

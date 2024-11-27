@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   loadProducts,
   loadCategories,
+  loadProductsByCategories,
 } from '../state/actions/products.actions';
 import {
   selectProducts,
@@ -11,8 +12,6 @@ import {
 } from '../state/selectors/products.selector';
 import { Observable } from 'rxjs';
 import { IProduct } from '../shared/models/product';
-import { ProductService } from '../shared/services/product.service';
-import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
@@ -38,7 +37,9 @@ export class ProductsComponent implements OnInit {
 
   listFilter: string = '';
   filteredProducts: IProduct[] = [];
+
   activeCategory: string = '';
+
   currentPage: number = 1;
   limit: number = 9;
   totalPages: number = 0;
@@ -53,6 +54,10 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
     this.store.dispatch(loadCategories());
 
+    this.products$.subscribe((products) => {
+      this.filteredProducts = products;
+    });
+
     this.totalProducts$.subscribe((total) => {
       this.totalPages = Math.ceil(total / this.limit);
     });
@@ -63,17 +68,29 @@ export class ProductsComponent implements OnInit {
     this.store.dispatch(loadProducts({ limit: this.limit, skip }));
   }
 
-  filterProducts(): void {
+  loadProductsByCategories(): void {
+    this.store.dispatch(
+      loadProductsByCategories({ category: this.activeCategory })
+    );
+  }
+
+  filterProductsBySearch(): void {
     this.products$.subscribe((products) => {
-      this.filteredProducts = products.filter((product) =>
-        product.title.toLowerCase().includes(this.listFilter.toLowerCase())
-      );
+      if (!this.listFilter.trim()) {
+        this.filteredProducts = products;
+      } else {
+        this.filteredProducts = products.filter((product) =>
+          product.title.toLowerCase().includes(this.listFilter.toLowerCase())
+        );
+      }
     });
   }
 
   setActiveCategory(category: string): void {
     this.activeCategory = category;
-    this.filterProducts();
+    if (this.activeCategory == '') this.loadProducts();
+    else this.loadProductsByCategories();
+    this.currentPage = 1;
   }
 
   onPageChange(page: number): void {
@@ -81,78 +98,3 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 }
-
-// products: IProduct[] = [];
-// errorMessage = '';
-// sub!: Subscription;
-// productCategories: string[] = [];
-// sub2!: Subscription;
-// sub3!: Subscription;
-// activeCategory: string = '';
-// private _listFilter: string = '';
-// filteredProducts: IProduct[] = [];
-// currentPage: number = 1;
-// limit: number = 9;
-// totalProducts: number = 0;
-// get listFilter(): string {
-//   return this._listFilter;
-// }
-// set listFilter(value: string) {
-//   this._listFilter = value;
-//   this.filteredProducts = this.performFilter(value);
-// }
-// constructor(private productService: ProductService) {}
-// ngOnInit(): void {
-//   this.loadProducts();
-//   this.sub2 = this.productService.getCategories().subscribe({
-//     next: (categories: any) => {
-//       this.productCategories = categories;
-//     },
-//     error: (err) => (this.errorMessage = err),
-//   });
-// }
-// ngOnDestroy(): void {
-//   // this.sub.unsubscribe();
-//   // this.sub2.unsubscribe();
-//   // this.sub3.unsubscribe();
-// }
-// performFilter(value: string): IProduct[] {
-//   value = value.toLocaleLowerCase();
-//   return this.products.filter((product: IProduct) =>
-//     product.title.toLocaleLowerCase().includes(value)
-//   );
-// }
-// setActiveCategory(category: string): void {
-//   this.activeCategory = category;
-//   this.currentPage = 1;
-//   this.loadProducts();
-//   this.sub3 = this.productService
-//     .getProductsByCategories(this.activeCategory)
-//     .subscribe({
-//       next: (products: any) => {
-//         this.products = products.products;
-//         this.filteredProducts = this.products;
-//       },
-//       error: (err) => (this.errorMessage = err),
-//     });
-// }
-// loadProducts(): void {
-//   const skip = (this.currentPage - 1) * this.limit;
-//   this.sub = this.productService
-//     .getProductsWithPagination(this.limit, skip)
-//     .subscribe({
-//       next: (products: any) => {
-//         this.products = products.products;
-//         this.filteredProducts = this.products;
-//         this.totalProducts = products.total;
-//       },
-//       error: (err) => (this.errorMessage = err),
-//     });
-// }
-// onPageChange(page: number): void {
-//   this.currentPage = page;
-//   this.loadProducts();
-// }
-// get totalPages(): number {
-//   return Math.ceil(this.totalProducts / this.limit);
-// }

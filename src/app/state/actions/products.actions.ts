@@ -16,6 +16,21 @@ export const loadProductsFailure = createAction(
   props<{ error: string }>()
 );
 
+export const loadProductsByCategories = createAction(
+  '[Products] Load Products By Categories',
+  props<{ category: string }>()
+);
+
+export const loadProductsByCategoriesSuccess = createAction(
+  '[Products] Load Products By Categories Success',
+  props<{ products: IProduct[]; total: number }>()
+);
+
+export const loadProductsByCategoriesFailure = createAction(
+  '[Products] Load Products By Categories Failure',
+  props<{ error: string }>()
+);
+
 export const loadCategories = createAction('[Categories] Load Categories');
 
 export const loadCategoriesSuccess = createAction(

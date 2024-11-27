@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../shared/models/product';
-import { Subscription } from 'rxjs';
-import { ProductService } from '../shared/services/product.service';
+import { Observable, Subscription } from 'rxjs';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectSingleProduct } from '../state/selectors/single-product.selector';
+import { loadSingleProduct } from '../state/actions/single-product.actions';
 
 @Component({
   selector: 'app-individual-product',
@@ -15,22 +17,30 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IndividualProductComponent implements OnInit {
   product!: IProduct;
-  errorMessage = '';
-  sub!: Subscription;
 
-  constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute
-  ) {}
+  product$!: Observable<IProduct>;
+
+  currentimage: string = '';
+
+  constructor(private route: ActivatedRoute, private store: Store) {
+    this.product$ = this.store.select(selectSingleProduct);
+  }
 
   ngOnInit(): void {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.sub = this.productService.getSingleProduct(productId).subscribe({
-      next: (product: IProduct) => {
-        this.product = product;
-      },
-      error: (err) => (this.errorMessage = err),
+    this.store.dispatch(loadSingleProduct({ id: productId }));
+
+    this.product$.subscribe((product) => {
+      this.product = product;
+
+      if (product) {
+        this.currentimage = product.thumbnail;
+      }
     });
+  }
+
+  changeImage(image: string): void {
+    this.currentimage = image;
   }
 }
