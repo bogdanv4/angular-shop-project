@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from '../../shared/models/product';
+import { IProduct } from '../shared/models/product';
 import { Subscription } from 'rxjs';
-import { ProductService } from '../../shared/services/product.service';
-import { CapitalizePipe } from '../../shared/pipes/capitalize.pipe';
+import { ProductService } from '../shared/services/product.service';
+import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
