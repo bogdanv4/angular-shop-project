@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-products',
@@ -26,6 +27,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     CapitalizePipe,
     RouterLink,
     RouterOutlet,
+    MatSliderModule,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -44,6 +46,12 @@ export class ProductsComponent implements OnInit {
   limit: number = 9;
   totalPages: number = 0;
 
+  // Price range:
+  minPriceRangeValue!: number;
+  maxPriceRangeValue!: number;
+  startValue!: number;
+  endValue!: number;
+
   constructor(private store: Store) {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
@@ -56,6 +64,9 @@ export class ProductsComponent implements OnInit {
 
     this.products$.subscribe((products) => {
       this.filteredProducts = products;
+
+      const prices = products.map((product) => product.price);
+      this.setMinAndMaxPricesFromProducts(prices);
     });
 
     this.totalProducts$.subscribe((total) => {
@@ -96,5 +107,23 @@ export class ProductsComponent implements OnInit {
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadProducts();
+  }
+
+  setMinAndMaxPricesFromProducts(prices: number[]): void {
+    this.minPriceRangeValue = Math.min(...prices);
+    this.maxPriceRangeValue = Math.max(...prices);
+
+    this.startValue = this.minPriceRangeValue;
+    this.endValue = this.maxPriceRangeValue;
+  }
+
+  updateSliderValue(event: any): void {
+    // Proverava koja vrednost je promenjena
+    const { value, thumbLabel } = event;
+    if (thumbLabel === 0) {
+      this.startValue = value; // Ažurira levu vrednost
+    } else if (thumbLabel === 1) {
+      this.endValue = value; // Ažurira desnu vrednost
+    }
   }
 }

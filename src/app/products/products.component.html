@@ -25,7 +25,7 @@
           <div class="card-body p-0 pt-5">
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text mb-5">
-              {{ product.description.split(" ").slice(0, 4).join(" ") }}
+              {{ product.description.split(" ").slice(0, 3).join(" ") }}
               <a [routerLink]="['/products', product.id]">Read More</a>
             </p>
             <a href="" class="product-category">
@@ -42,23 +42,44 @@
         </div>
       </div>
 
-      <div class="categories">
-        <div class="heading">
-          <i class="bi bi-ui-checks-grid"></i>
-          <h5>Categories:</h5>
+      <div class="categories-and-price-range">
+        <div class="categories">
+          <div class="heading">
+            <i class="bi bi-ui-checks-grid"></i>
+            <h5>Categories:</h5>
+          </div>
+          <ul>
+            <li class="active" (click)="setActiveCategory('')">
+              <a href="">All</a>
+            </li>
+            <li
+              *ngFor="let category of categories$ | async"
+              [ngClass]="{ active: activeCategory === category }"
+              (click)="setActiveCategory(category)"
+            >
+              <a>{{ category | capitalize }}</a>
+            </li>
+          </ul>
         </div>
-        <ul>
-          <li class="active" (click)="setActiveCategory('')">
-            <a href="">All</a>
-          </li>
-          <li
-            *ngFor="let category of categories$ | async"
-            [ngClass]="{ active: activeCategory === category }"
-            (click)="setActiveCategory(category)"
+        <div class="price-range">
+          <div class="heading">
+            <i class="bi bi-coin"></i>
+            <h5>Price range:</h5>
+          </div>
+          <mat-slider
+            [min]="minPriceRangeValue"
+            [max]="maxPriceRangeValue"
+            (input)="updateSliderValue($event)"
           >
-            <a>{{ category | capitalize }}</a>
-          </li>
-        </ul>
+            <input [value]="startValue" matSliderStartThumb #sliderleft />
+            <input [value]="endValue" matSliderEndThumb #sliderright />
+          </mat-slider>
+
+          <div class="slider-value mb-4">
+            <span> {{ sliderleft.value }} </span>
+            <span> {{ sliderright.value }} </span>
+          </div>
+        </div>
       </div>
     </div>
 
