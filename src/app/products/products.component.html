@@ -71,13 +71,21 @@
             [max]="maxPriceRangeValue"
             (input)="updateSliderValue($event)"
           >
-            <input [value]="startValue" matSliderStartThumb #sliderleft />
-            <input [value]="endValue" matSliderEndThumb #sliderright />
+            <input
+              [value]="startValue"
+              matSliderStartThumb
+              [formControl]="sliderLeft"
+            />
+            <input
+              [value]="endValue"
+              matSliderEndThumb
+              [formControl]="sliderRight"
+            />
           </mat-slider>
 
           <div class="slider-value mb-4">
-            <span> {{ sliderleft.value }} </span>
-            <span> {{ sliderright.value }} </span>
+            <span> {{ sliderLeft.value }} </span>
+            <span> {{ sliderRight.value }} </span>
           </div>
         </div>
       </div>

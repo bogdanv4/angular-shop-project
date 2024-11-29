@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   loadProducts,
@@ -14,9 +14,10 @@ import { Observable } from 'rxjs';
 import { IProduct } from '../shared/models/product';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-products',
@@ -28,6 +29,7 @@ import { MatSliderModule } from '@angular/material/slider';
     RouterLink,
     RouterOutlet,
     MatSliderModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -52,7 +54,11 @@ export class ProductsComponent implements OnInit {
   startValue!: number;
   endValue!: number;
 
-  constructor(private store: Store) {
+  // FORM control
+  sliderLeft!: FormControl;
+  sliderRight!: FormControl;
+
+  constructor(private store: Store, private cdr: ChangeDetectorRef) {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
     this.totalProducts$ = this.store.select(selectTotalProducts);
@@ -97,6 +103,17 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  filterProductsByPriceRange(): void {
+    this.products$.subscribe((products) => {
+      this.filteredProducts = products.filter(
+        (product) =>
+          product.price >= this.startValue && product.price <= this.endValue
+      );
+    });
+
+    this.cdr.detectChanges();
+  }
+
   setActiveCategory(category: string): void {
     this.activeCategory = category;
     if (this.activeCategory == '') this.loadProducts();
@@ -115,15 +132,26 @@ export class ProductsComponent implements OnInit {
 
     this.startValue = this.minPriceRangeValue;
     this.endValue = this.maxPriceRangeValue;
+
+    this.sliderLeft = new FormControl(this.startValue);
+    this.sliderRight = new FormControl(this.endValue);
   }
 
   updateSliderValue(event: any): void {
-    // Proverava koja vrednost je promenjena
-    const { value, thumbLabel } = event;
-    if (thumbLabel === 0) {
-      this.startValue = value; // Ažurira levu vrednost
-    } else if (thumbLabel === 1) {
-      this.endValue = value; // Ažurira desnu vrednost
+    console.log('Slider Event:', event);
+    const value = event.target.ariaValueText;
+    const left = event.target.nextElementSibling.classList.contains(
+      'mat-slider__right-input'
+    );
+
+    if (left) {
+      this.startValue = value;
+      console.log('Start value: ', this.startValue);
+    } else if (!left) {
+      this.endValue = value;
+      console.log('End value: ', this.endValue);
     }
+
+    this.filterProductsByPriceRange();
   }
 }
