@@ -17,7 +17,7 @@ import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
-import { ChangeDetectorRef } from '@angular/core';
+import { NoDataComponent } from '../no-data/no-data.component';
 
 @Component({
   selector: 'app-products',
@@ -30,6 +30,7 @@ import { ChangeDetectorRef } from '@angular/core';
     RouterOutlet,
     MatSliderModule,
     ReactiveFormsModule,
+    NoDataComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -58,10 +59,20 @@ export class ProductsComponent implements OnInit {
   sliderLeft!: FormControl;
   sliderRight!: FormControl;
 
-  constructor(private store: Store, private cdr: ChangeDetectorRef) {
+  constructor(private store: Store) {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
     this.totalProducts$ = this.store.select(selectTotalProducts);
+
+    this.sliderLeft = new FormControl(this.startValue);
+    this.sliderRight = new FormControl(this.endValue);
+
+    this.sliderLeft.valueChanges.pipe().subscribe((value) => {
+      console.log(value);
+    });
+    this.sliderRight.valueChanges.pipe().subscribe((value) => {
+      console.log(value);
+    });
   }
 
   ngOnInit(): void {
@@ -110,8 +121,6 @@ export class ProductsComponent implements OnInit {
           product.price >= this.startValue && product.price <= this.endValue
       );
     });
-
-    this.cdr.detectChanges();
   }
 
   setActiveCategory(category: string): void {
@@ -138,7 +147,6 @@ export class ProductsComponent implements OnInit {
   }
 
   updateSliderValue(event: any): void {
-    console.log('Slider Event:', event);
     const value = event.target.ariaValueText;
     const left = event.target.nextElementSibling.classList.contains(
       'mat-slider__right-input'
@@ -146,10 +154,8 @@ export class ProductsComponent implements OnInit {
 
     if (left) {
       this.startValue = value;
-      console.log('Start value: ', this.startValue);
     } else if (!left) {
       this.endValue = value;
-      console.log('End value: ', this.endValue);
     }
 
     this.filterProductsByPriceRange();

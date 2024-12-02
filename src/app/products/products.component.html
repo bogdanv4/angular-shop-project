@@ -15,7 +15,9 @@
       </div>
     </form>
     <div class="grid-and-categories">
-      <div class="grid">
+      <app-no-data *ngIf="filteredProducts.length === 0"></app-no-data>
+
+      <div class="grid" *ngIf="filteredProducts.length > 0">
         <div class="card p-4" *ngFor="let product of filteredProducts">
           <img
             class="card-img-top"
