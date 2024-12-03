@@ -23,3 +23,8 @@ export const selectError = createSelector(
   selectProductsFeature,
   (state: ProductsState) => state.error
 );
+
+export const selectIsLoading = createSelector(
+  selectProductsFeature,
+  (state: ProductsState) => state.loading
+);

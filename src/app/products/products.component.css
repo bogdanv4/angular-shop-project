@@ -39,7 +39,8 @@ form {
   align-items: flex-start;
   justify-content: center;
 
-  app-no-data {
+  app-no-data,
+  app-server-error {
     width: 70%;
   }
 
@@ -215,6 +216,19 @@ form {
   }
   span {
     color: #fff;
+  }
+}
+
+/* Loading spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+
+  .spinner-border {
+    height: 100px;
+    width: 100px;
   }
 }
 

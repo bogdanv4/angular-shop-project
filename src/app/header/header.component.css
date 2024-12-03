@@ -3,6 +3,9 @@ header {
 }
 nav {
   background-color: #141414 !important;
+  background-image: url("../../../public/lines.svg");
+  background-position: center;
+  background-size: cover;
 
   .logo {
     font-size: 30px;

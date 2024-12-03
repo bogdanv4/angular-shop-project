@@ -9,6 +9,8 @@ import {
   selectProducts,
   selectCategories,
   selectTotalProducts,
+  selectIsLoading,
+  selectError,
 } from '../state/selectors/products.selector';
 import { Observable } from 'rxjs';
 import { IProduct } from '../shared/models/product';
@@ -18,6 +20,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { NoDataComponent } from '../no-data/no-data.component';
+import { ServerErrorComponent } from '../server-error/server-error.component';
 
 @Component({
   selector: 'app-products',
@@ -31,6 +34,7 @@ import { NoDataComponent } from '../no-data/no-data.component';
     MatSliderModule,
     ReactiveFormsModule,
     NoDataComponent,
+    ServerErrorComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -39,6 +43,8 @@ export class ProductsComponent implements OnInit {
   products$!: Observable<IProduct[]>;
   categories$!: Observable<string[]>;
   totalProducts$!: Observable<number>;
+  isLoading$!: Observable<boolean>;
+  error$!: Observable<string | null>;
 
   listFilter: string = '';
   filteredProducts: IProduct[] = [];
@@ -63,6 +69,8 @@ export class ProductsComponent implements OnInit {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
     this.totalProducts$ = this.store.select(selectTotalProducts);
+    this.isLoading$ = this.store.select(selectIsLoading);
+    this.error$ = this.store.select(selectError);
 
     this.sliderLeft = new FormControl(this.startValue);
     this.sliderRight = new FormControl(this.endValue);

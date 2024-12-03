@@ -14,8 +14,22 @@
         </a>
       </div>
     </form>
-    <div class="grid-and-categories">
-      <app-no-data *ngIf="filteredProducts.length === 0"></app-no-data>
+
+    <div class="spinner-container" *ngIf="isLoading$ | async">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="grid-and-categories" *ngIf="!(isLoading$ | async)">
+      <app-server-error
+        *ngIf="error$ | async as errorMessage"
+        [errorMessage]="errorMessage"
+      ></app-server-error>
+
+      <app-no-data
+        *ngIf="filteredProducts.length === 0 && !error$"
+      ></app-no-data>
 
       <div class="grid" *ngIf="filteredProducts.length > 0">
         <div class="card p-4" *ngFor="let product of filteredProducts">
@@ -24,7 +38,7 @@
             [src]="product.thumbnail"
             [alt]="product.title"
           />
-          <div class="card-body p-0 pt-5">
+          <div class="card-body p-0 pt-2">
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text mb-5">
               {{ product.description.split(" ").slice(0, 3).join(" ") }}
@@ -63,7 +77,7 @@
             </li>
           </ul>
         </div>
-        <div class="price-range">
+        <div class="price-range mt-4">
           <div class="heading">
             <i class="bi bi-coin"></i>
             <h5>Price range:</h5>

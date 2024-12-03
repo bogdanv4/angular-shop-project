@@ -5,13 +5,18 @@ import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectSingleProduct } from '../state/selectors/single-product.selector';
+import {
+  selectError,
+  selectSingleProduct,
+} from '../state/selectors/single-product.selector';
 import { loadSingleProduct } from '../state/actions/single-product.actions';
+import { selectIsLoading } from '../state/selectors/single-product.selector';
+import { ServerErrorComponent } from '../server-error/server-error.component';
 
 @Component({
   selector: 'app-individual-product',
   standalone: true,
-  imports: [CommonModule, CapitalizePipe],
+  imports: [CommonModule, CapitalizePipe, ServerErrorComponent],
   templateUrl: './individual-product.component.html',
   styleUrl: './individual-product.component.css',
 })
@@ -19,11 +24,15 @@ export class IndividualProductComponent implements OnInit {
   product!: IProduct;
 
   product$!: Observable<IProduct>;
+  isLoading$!: Observable<boolean>;
+  error$!: Observable<string | null>;
 
   currentimage: string = '';
 
   constructor(private route: ActivatedRoute, private store: Store) {
     this.product$ = this.store.select(selectSingleProduct);
+    this.isLoading$ = this.store.select(selectIsLoading);
+    this.error$ = this.store.select(selectError);
   }
 
   ngOnInit(): void {
