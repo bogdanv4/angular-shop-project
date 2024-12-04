@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../shared/models/product';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
