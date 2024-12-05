@@ -2,6 +2,42 @@
   background-color: #141414;
 }
 
+.search-and-cart {
+  display: flex;
+  justify-content: space-between;
+
+  .cart {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+    border: 2px solid #262626;
+    border-radius: 10px;
+    padding: 5px 10px;
+    position: relative;
+
+    h5 {
+      margin-bottom: 0;
+      margin-left: 20px;
+    }
+
+    .cart-icon {
+      font-size: 30px;
+      color: #753ff1;
+      z-index: 2;
+      margin-right: 20px;
+    }
+    .notify-icon {
+      position: absolute;
+      top: -30px;
+      right: -20px;
+      color: red;
+      font-size: 50px;
+      z-index: 1;
+    }
+  }
+}
+
 form {
   width: 40%;
   .search {

@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Product</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">
+            <a class="remove-product"> X </a>
+          </th>
+          <td>Essence Mascara Lash Princess</td>
+          <td>$9.99</td>
+          <td>
+            <div class="quantity">
+              <i class="bi bi-dash" (click)="decreaseQuantity()"></i>
+              <span>{{ quantity }}</span>
+              <i class="bi bi-plus" (click)="increaseQuantity()"></i>
+            </div>
+          </td>
+          <td>$9.99</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <a class="remove-product"> X </a>
+          </th>
+          <td>Powder Canister</td>
+          <td>$14.99</td>
+          <td>
+            <div class="quantity">
+              <i class="bi bi-dash"></i>
+              <span>1</span>
+              <i class="bi bi-plus"></i>
+            </div>
+          </td>
+          <td>$14.99</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <a class="remove-product"> X </a>
+          </th>
+          <td>Red Lipstick</td>
+          <td>$12.99</td>
+          <td>
+            <div class="quantity">
+              <i class="bi bi-dash"></i>
+              <span>1</span>
+              <i class="bi bi-plus"></i>
+            </div>
+          </td>
+          <td>$12.99</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="total-price">
+      <h2>Total: $38</h2>
+    </div>
+  </div>
+</div>

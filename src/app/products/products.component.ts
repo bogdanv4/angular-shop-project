@@ -65,6 +65,9 @@ export class ProductsComponent implements OnInit {
   sliderLeft!: FormControl;
   sliderRight!: FormControl;
 
+  // Cart notification icon
+  showNotifyIcon: boolean = false;
+
   constructor(private store: Store) {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
@@ -167,5 +170,14 @@ export class ProductsComponent implements OnInit {
     }
 
     this.filterProductsByPriceRange();
+  }
+
+  addToCart(): void {
+    alert('Product added to your cart');
+    this.showNotifyIcon = true;
+
+    setTimeout(() => {
+      this.showNotifyIcon = false;
+    }, 5000);
   }
 }

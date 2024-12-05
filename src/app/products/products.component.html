@@ -1,19 +1,28 @@
 <div class="container-fluid py-5">
   <div class="container">
-    <form class="pb-4">
-      <div class="search">
-        <input
-          type="text"
-          name="search"
-          placeholder="Search..."
-          [(ngModel)]="listFilter"
-          (ngModelChange)="filterProductsBySearch()"
-        />
-        <a class="search-button">
-          <i class="bi bi-search"></i>
+    <div class="search-and-cart pb-4">
+      <form>
+        <div class="search">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            [(ngModel)]="listFilter"
+            (ngModelChange)="filterProductsBySearch()"
+          />
+          <a class="search-button">
+            <i class="bi bi-search"></i>
+          </a>
+        </div>
+      </form>
+      <div class="cart">
+        <i class="bi bi-dot notify-icon" *ngIf="showNotifyIcon"></i>
+        <h5>Your cart:</h5>
+        <a routerLink="/cart">
+          <i class="bi bi-cart cart-icon"></i>
         </a>
       </div>
-    </form>
+    </div>
 
     <div class="spinner-container" *ngIf="isLoading$ | async">
       <div class="spinner-border" role="status">
@@ -52,7 +61,9 @@
                 <p>Price</p>
                 <p>{{ product.price | currency }}</p>
               </div>
-              <a href="#" class="btn btn-primary px-4">Add To Cart</a>
+              <a href="#" class="btn btn-primary px-4" (click)="addToCart()"
+                >Add To Cart</a
+              >
             </div>
           </div>
         </div>
