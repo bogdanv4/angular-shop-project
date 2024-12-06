@@ -21,6 +21,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { NoDataComponent } from '../no-data/no-data.component';
 import { ServerErrorComponent } from '../server-error/server-error.component';
+import { addToCart } from '../state/actions/cart.actions';
 
 @Component({
   selector: 'app-products',
@@ -172,8 +173,9 @@ export class ProductsComponent implements OnInit {
     this.filterProductsByPriceRange();
   }
 
-  addToCart(): void {
-    alert('Product added to your cart');
+  addToCart(product: IProduct): void {
+    this.store.dispatch(addToCart({ product }));
+    alert('Product has been added to your cart');
     this.showNotifyIcon = true;
 
     setTimeout(() => {

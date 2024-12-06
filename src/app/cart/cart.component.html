@@ -1,6 +1,8 @@
 <div class="container-fluid">
   <div class="container">
-    <table>
+    <app-no-data *ngIf="(cartProducts$ | async)?.length === 0"></app-no-data>
+
+    <table *ngIf="(cartProducts$ | async)?.length != 0">
       <thead>
         <tr>
           <th scope="col"></th>
@@ -11,55 +13,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let product of cartProducts$ | async">
           <th scope="row">
             <a class="remove-product"> X </a>
           </th>
-          <td>Essence Mascara Lash Princess</td>
-          <td>$9.99</td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.price | currency }}</td>
           <td>
             <div class="quantity">
-              <i class="bi bi-dash" (click)="decreaseQuantity()"></i>
-              <span>{{ quantity }}</span>
-              <i class="bi bi-plus" (click)="increaseQuantity()"></i>
+              <i class="bi bi-dash" (click)="decreaseQuantity(product)"></i>
+              <span>{{ product.quantity }}</span>
+              <i class="bi bi-plus" (click)="increaseQuantity(product)"></i>
             </div>
           </td>
-          <td>$9.99</td>
-        </tr>
-        <tr>
-          <th scope="row">
-            <a class="remove-product"> X </a>
-          </th>
-          <td>Powder Canister</td>
-          <td>$14.99</td>
-          <td>
-            <div class="quantity">
-              <i class="bi bi-dash"></i>
-              <span>1</span>
-              <i class="bi bi-plus"></i>
-            </div>
-          </td>
-          <td>$14.99</td>
-        </tr>
-        <tr>
-          <th scope="row">
-            <a class="remove-product"> X </a>
-          </th>
-          <td>Red Lipstick</td>
-          <td>$12.99</td>
-          <td>
-            <div class="quantity">
-              <i class="bi bi-dash"></i>
-              <span>1</span>
-              <i class="bi bi-plus"></i>
-            </div>
-          </td>
-          <td>$12.99</td>
+          <td>{{ product.price * product.quantity | currency }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="total-price">
-      <h2>Total: $38</h2>
+    <div class="total-price" *ngIf="(cartProducts$ | async)?.length != 0">
+      <h2>Total: {{ calculateTotal() | currency }}</h2>
     </div>
   </div>
 </div>

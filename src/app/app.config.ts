@@ -9,13 +9,18 @@ import { productsReducer } from './state/reducers/products.reducer';
 import { ProductsEffects } from './state/effects/products.effects';
 import { singleProductReducer } from './state/reducers/single-product.reducer';
 import { SingleProductEffects } from './state/effects/single-product.effects';
+import { cartReducer } from './state/reducers/cart.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ products: productsReducer, product: singleProductReducer }),
+    provideStore({
+      products: productsReducer,
+      product: singleProductReducer,
+      cart: cartReducer,
+    }),
     provideEffects(ProductsEffects, SingleProductEffects),
   ],
 };
