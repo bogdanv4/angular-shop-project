@@ -29,11 +29,12 @@
     }
     .notify-icon {
       position: absolute;
-      top: -30px;
-      right: -20px;
-      color: red;
-      font-size: 50px;
-      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: red;
+      border-radius: 100%;
+      padding: 2px 8px;
+      font-size: 12px;
     }
   }
 }

@@ -22,6 +22,17 @@
   }
 }
 
+td {
+  .product {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 80px;
+    }
+  }
+}
+
 .remove-product {
   color: #fff;
   text-decoration: none;

@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { IProduct } from '../shared/models/product';
 import { Store } from '@ngrx/store';
 import { selectCartProducts } from '../state/selectors/cart.selector';
-import { updateProductQuantity } from '../state/actions/cart.actions';
+import {
+  removeFromCart,
+  updateProductQuantity,
+} from '../state/actions/cart.actions';
 import { NoDataComponent } from '../no-data/no-data.component';
 import { AboutComponent } from '../about/about.component';
 
@@ -45,6 +48,10 @@ export class CartComponent {
         })
       );
     }
+  }
+
+  removeProduct(productId: number): void {
+    this.store.dispatch(removeFromCart({ productId }));
   }
 
   calculateTotal(): number {

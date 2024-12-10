@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { IProduct } from '../../shared/models/product';
-import { addToCart, updateProductQuantity } from '../actions/cart.actions';
+import {
+  addToCart,
+  removeFromCart,
+  updateProductQuantity,
+} from '../actions/cart.actions';
 
 export interface CartState {
   products: IProduct[];
@@ -24,5 +28,9 @@ export const cartReducer = createReducer(
     products: state.products.map((product) =>
       product.id === productId ? { ...product, quantity: quantity } : product
     ),
+  })),
+  on(removeFromCart, (state, { productId }) => ({
+    ...state,
+    products: state.products.filter((product) => product.id !== productId),
   }))
 );

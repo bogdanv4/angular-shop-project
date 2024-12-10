@@ -10,3 +10,8 @@ export const updateProductQuantity = createAction(
   '[Cart] Update Product Quantity',
   props<{ productId: number; quantity: number }>()
 );
+
+export const removeFromCart = createAction(
+  '[Cart] Remove From Cart',
+  props<{ productId: number }>()
+);
