@@ -5,11 +5,11 @@ import { IProduct } from '../shared/models/product';
 import { Store } from '@ngrx/store';
 import { selectCartProducts } from '../state/selectors/cart.selector';
 import {
+  loadCart,
   removeFromCart,
   updateProductQuantity,
 } from '../state/actions/cart.actions';
 import { NoDataComponent } from '../no-data/no-data.component';
-import { AboutComponent } from '../about/about.component';
 
 @Component({
   selector: 'app-cart',
@@ -25,7 +25,15 @@ export class CartComponent {
 
   constructor(private store: Store) {
     this.cartProducts$ = this.store.select(selectCartProducts);
-    console.log(this.cartProducts$);
+
+    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    if (savedCart.length > 0) {
+      const initializedCart = savedCart.map((product: IProduct) => ({
+        ...product,
+        quantity: product.quantity ?? 1,
+      }));
+      this.store.dispatch(loadCart({ products: initializedCart }));
+    }
   }
 
   increaseQuantity(product: IProduct): void {

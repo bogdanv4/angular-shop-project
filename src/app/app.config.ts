@@ -10,6 +10,7 @@ import { ProductsEffects } from './state/effects/products.effects';
 import { singleProductReducer } from './state/reducers/single-product.reducer';
 import { SingleProductEffects } from './state/effects/single-product.effects';
 import { cartReducer } from './state/reducers/cart.reducer';
+import { CartEffects } from './state/effects/cart.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,6 @@ export const appConfig: ApplicationConfig = {
       product: singleProductReducer,
       cart: cartReducer,
     }),
-    provideEffects(ProductsEffects, SingleProductEffects),
+    provideEffects(ProductsEffects, SingleProductEffects, CartEffects),
   ],
 };

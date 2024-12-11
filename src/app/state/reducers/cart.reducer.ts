@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { IProduct } from '../../shared/models/product';
 import {
   addToCart,
+  loadCart,
   removeFromCart,
   updateProductQuantity,
 } from '../actions/cart.actions';
@@ -32,5 +33,9 @@ export const cartReducer = createReducer(
   on(removeFromCart, (state, { productId }) => ({
     ...state,
     products: state.products.filter((product) => product.id !== productId),
+  })),
+  on(loadCart, (state, { products }) => ({
+    ...state,
+    products,
   }))
 );

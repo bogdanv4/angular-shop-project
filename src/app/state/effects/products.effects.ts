@@ -13,7 +13,6 @@ import {
 } from '../actions/products.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { inject, Injectable, Injector } from '@angular/core';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class ProductsEffects {
