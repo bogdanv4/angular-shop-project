@@ -9,4 +9,5 @@ export interface IProduct {
   thumbnail: string;
   quantity: number;
   images: string[];
+  isAddedToCart?: boolean;
 }

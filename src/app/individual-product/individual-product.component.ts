@@ -12,6 +12,7 @@ import {
 import { loadSingleProduct } from '../state/actions/single-product.actions';
 import { selectIsLoading } from '../state/selectors/single-product.selector';
 import { ServerErrorComponent } from '../server-error/server-error.component';
+import { addToCart } from '../state/actions/cart.actions';
 
 @Component({
   selector: 'app-individual-product',
@@ -51,5 +52,10 @@ export class IndividualProductComponent implements OnInit {
 
   changeImage(image: string): void {
     this.currentimage = image;
+  }
+
+  addToCart(product: IProduct): void {
+    this.store.dispatch(addToCart({ product }));
+    alert('Product has been added to your cart');
   }
 }

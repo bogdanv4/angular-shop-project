@@ -92,7 +92,10 @@ export class ProductsComponent implements OnInit {
     this.store.dispatch(loadCategories());
 
     this.products$.subscribe((products) => {
-      this.filteredProducts = products;
+      this.filteredProducts = products.map((product) => ({
+        ...product,
+        isAddedToCart: product.isAddedToCart ?? false,
+      }));
 
       const prices = products.map((product) => product.price);
       this.setMinAndMaxPricesFromProducts(prices);
@@ -174,8 +177,11 @@ export class ProductsComponent implements OnInit {
   }
 
   addToCart(product: IProduct): void {
-    this.store.dispatch(addToCart({ product }));
+    const updatedProduct = { ...product, isAddedToCart: true };
+    this.store.dispatch(addToCart({ product: updatedProduct }));
+    // this.store.dispatch(addToCart({ product }));
     alert('Product has been added to your cart');
+    product.isAddedToCart = true;
     this.showNotifyIcon = true;
 
     setTimeout(() => {

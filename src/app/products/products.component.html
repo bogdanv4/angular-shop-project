@@ -61,8 +61,11 @@
                 <p>Price</p>
                 <p>{{ product.price | currency }}</p>
               </div>
-              <a class="btn btn-primary px-4" (click)="addToCart(product)"
-                >Add To Cart</a
+              <a
+                class="btn btn-primary px-4"
+                (click)="!product.isAddedToCart && addToCart(product)"
+                [ngClass]="{ 'btn-disabled': product.isAddedToCart }"
+                >{{ product.isAddedToCart ? "Added" : "Add To Cart" }}</a
               >
             </div>
           </div>

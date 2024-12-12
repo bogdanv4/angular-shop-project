@@ -24,6 +24,7 @@ export const cartReducer = createReducer(
       { ...product, quantity: product.quantity ?? 1 },
     ],
   })),
+
   on(updateProductQuantity, (state, { productId, quantity }) => ({
     ...state,
     products: state.products.map((product) =>
