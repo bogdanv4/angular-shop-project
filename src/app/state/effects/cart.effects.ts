@@ -23,7 +23,19 @@ export class CartEffects {
           let updatedCart: IProduct[];
 
           if (action.type === '[Cart] Add To Cart') {
-            updatedCart = [...cartState, (action as any).product];
+            const productToAdd = (action as any).product;
+            updatedCart = cartState.map((product) => {
+              if (product.id === productToAdd.id) {
+                return { ...product, quantity: product.quantity + 1 };
+              }
+              return product;
+            });
+            const productExists = cartState.some(
+              (product) => product.id === productToAdd.id
+            );
+            if (!productExists) {
+              updatedCart = [...updatedCart, { ...productToAdd, quantity: 1 }];
+            }
           } else if (action.type === '[Cart] Update Product Quantity') {
             const { productId, quantity } = action as any;
             updatedCart = cartState.map((product) =>
@@ -41,6 +53,4 @@ export class CartEffects {
       ),
     { dispatch: false }
   );
-
-  //   constructor(private actions$: Actions) {}
 }

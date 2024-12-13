@@ -177,11 +177,8 @@ export class ProductsComponent implements OnInit {
   }
 
   addToCart(product: IProduct): void {
-    const updatedProduct = { ...product, isAddedToCart: true };
-    this.store.dispatch(addToCart({ product: updatedProduct }));
-    // this.store.dispatch(addToCart({ product }));
+    this.store.dispatch(addToCart({ product }));
     alert('Product has been added to your cart');
-    product.isAddedToCart = true;
     this.showNotifyIcon = true;
 
     setTimeout(() => {
