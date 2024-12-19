@@ -2,12 +2,13 @@
   <div class="container">
     <h1 class="title text-light text-center mb-5">User Register</h1>
 
-    <form>
+    <form (ngSubmit)="registerUser(email.value, password.value, role.value)">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label text-light"
           >Email address</label
         >
         <input
+          #email
           type="email"
           class="form-control text-light"
           aria-describedby="emailHelp"
@@ -17,11 +18,12 @@
         <label for="exampleInputPassword1" class="form-label text-light">
           Password
         </label>
-        <input type="password" class="form-control text-light" />
+        <input #password type="password" class="form-control text-light" />
       </div>
       <div class="mb-3">
         <label for="role" class="from-label text-light">Role</label>
         <select
+          #role
           id="role"
           class="form-select form-select-lg mb-3"
           aria-label="Large select example"
@@ -29,6 +31,10 @@
           <option value="1">Default</option>
           <option value="2">Admin</option>
         </select>
+      </div>
+
+      <div class="errors">
+        <p *ngFor="let error of validationErrors">{{ error }}</p>
       </div>
 
       <button type="submit" class="btn btn-primary">Register</button>

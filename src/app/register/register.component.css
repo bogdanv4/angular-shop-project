@@ -44,3 +44,7 @@ option {
   background-color: transparent;
   color: #262626;
 }
+
+.errors p {
+  color: red;
+}
