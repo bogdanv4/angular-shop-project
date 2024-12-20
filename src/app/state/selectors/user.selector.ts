@@ -7,3 +7,13 @@ export const selectAllUsers = createSelector(
   selectUserState,
   (state) => state.users
 );
+
+export const selectLoggedInUser = createSelector(
+  selectUserState,
+  (state) => state.loggedInUser
+);
+
+export const selectLoginError = createSelector(
+  selectUserState,
+  (state) => state.error
+);

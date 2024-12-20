@@ -2,12 +2,13 @@
   <div class="container">
     <h1 class="title text-light text-center mb-5">User Login</h1>
 
-    <form>
+    <form (ngSubmit)="login(email.value, password.value)">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label text-light"
           >Email address</label
         >
         <input
+          #email
           type="email"
           class="form-control text-light"
           aria-describedby="emailHelp"
@@ -17,10 +18,17 @@
         <label for="exampleInputPassword1" class="form-label text-light"
           >Password</label
         >
-        <input type="password" class="form-control text-light" />
+        <input #password type="password" class="form-control text-light" />
       </div>
 
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <div *ngIf="error$ | async as error" class="text-danger mt-3">
+      {{ error }}
+    </div>
+
+    <div *ngIf="loggedinUser$ | async as user" class="text-success mt-3">
+      Welcome, {{ user.email }}!
+    </div>
   </div>
 </div>
