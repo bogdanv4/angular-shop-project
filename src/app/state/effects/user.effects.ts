@@ -8,10 +8,12 @@ import {
 } from '../actions/user.actions';
 import { of, switchMap, tap } from 'rxjs';
 import { IUser } from '../../shared/models/user';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UserEffects {
   private actions$: Actions = inject(Actions);
+  private router: Router = inject(Router);
 
   saveUserToLocalStorage$ = createEffect(
     () =>
@@ -47,5 +49,17 @@ export class UserEffects {
         }
       })
     )
+  );
+
+  redirectAfterLogin$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(loginUserSuccess),
+        tap(() => {
+          alert('Login success');
+          this.router.navigate(['/products']);
+        })
+      ),
+    { dispatch: false }
   );
 }
