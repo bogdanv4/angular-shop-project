@@ -44,32 +44,6 @@ export class RegisterComponent {
 
       // this.store.dispatch(registerUser({ user: newUser }));
       alert('User registration successful');
-    } else {
-      this.validationErrors = this.getValidationErrors();
     }
-  }
-
-  getValidationErrors(): string[] {
-    const errors: string[] = [];
-    const emailErrors = this.registerForm.get('email')?.errors;
-    const passwordErrors = this.registerForm.get('password')?.errors;
-
-    if (emailErrors?.['required']) {
-      errors.push('Email is required.');
-    }
-    if (emailErrors?.['email']) {
-      errors.push('Email must be in valid format.');
-    }
-
-    if (passwordErrors?.['required']) {
-      errors.push('Password is required.');
-    }
-    if (passwordErrors?.['minlength']) {
-      errors.push(
-        `Password must have at least ${passwordErrors['minlength'].requiredLength} characters.`
-      );
-    }
-
-    return errors;
   }
 }
