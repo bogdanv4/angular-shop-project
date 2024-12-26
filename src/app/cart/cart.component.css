@@ -1,6 +1,6 @@
 .container-fluid {
   background-color: #141414;
-  height: 95vh;
+  height: calc(100vh - 73px);
   padding-top: 150px;
   padding-bottom: 150px;
   display: flex;
