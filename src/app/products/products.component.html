@@ -1,63 +1,142 @@
 <div class="container-fluid py-5">
   <div class="container">
-    <form class="pb-4">
-      <div class="search">
-        <input
-          type="text"
-          name="seacrh"
-          placeholder="Search..."
-          [(ngModel)]="listFilter"
-        />
-        <a class="search-button">
-          <i class="bi bi-search"></i>
+    <div class="search-and-cart pb-4">
+      <form>
+        <div class="search">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            [(ngModel)]="listFilter"
+            (ngModelChange)="filterProductsBySearch()"
+          />
+          <a class="search-button">
+            <i class="bi bi-search"></i>
+          </a>
+        </div>
+      </form>
+      <div class="cart">
+        <div class="notify-icon" *ngIf="showNotifyIcon"><span>1</span></div>
+        <h5>Your cart:</h5>
+        <a routerLink="/cart">
+          <i class="bi bi-cart cart-icon"></i>
         </a>
       </div>
-    </form>
-    <div class="grid-and-categories">
-      <div class="grid">
+    </div>
+
+    <div class="spinner-container" *ngIf="isLoading$ | async">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="grid-and-categories" *ngIf="!(isLoading$ | async)">
+      <app-server-error
+        *ngIf="error$ | async as errorMessage"
+        [errorMessage]="errorMessage"
+      ></app-server-error>
+
+      <app-no-data
+        *ngIf="filteredProducts.length === 0 && !error$"
+      ></app-no-data>
+
+      <div class="grid" *ngIf="filteredProducts.length > 0">
         <div class="card p-4" *ngFor="let product of filteredProducts">
           <img
             class="card-img-top"
-            [src]="product.images[0]"
+            [src]="product.thumbnail"
             [alt]="product.title"
           />
-          <div class="card-body p-0 pt-5">
+          <div class="card-body p-0 pt-2">
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text mb-5">
-              {{ product.description.split(" ").slice(0, 4).join(" ") }}
-              <a href="">Read More</a>
+              {{ product.description.split(" ").slice(0, 3).join(" ") }}
+              <a [routerLink]="['/products', product.id]">Read More</a>
             </p>
             <a href="" class="product-category">
-              {{ product.category }}
+              {{ product.category | capitalize }}
             </a>
             <div class="product-price-and-button mt-5">
               <div class="price">
                 <p>Price</p>
                 <p>{{ product.price | currency }}</p>
               </div>
-              <a href="#" class="btn btn-primary px-4">Add To Cart</a>
+              <a
+                class="btn btn-primary px-4"
+                (click)="!product.isAddedToCart && addToCart(product)"
+                >Add to cart</a
+              >
             </div>
           </div>
         </div>
       </div>
-      <div class="categories">
-        <div class="heading">
-          <i class="bi bi-ui-checks-grid"></i>
-          <h5>Categories:</h5>
+
+      <div class="categories-and-price-range">
+        <div class="categories">
+          <div class="heading">
+            <i class="bi bi-ui-checks-grid"></i>
+            <h5>Categories:</h5>
+          </div>
+          <ul>
+            <li class="active" (click)="setActiveCategory('')">
+              <a href="">All</a>
+            </li>
+            <li
+              *ngFor="let category of categories$ | async"
+              [ngClass]="{ active: activeCategory === category }"
+              (click)="setActiveCategory(category)"
+            >
+              <a>{{ category | capitalize }}</a>
+            </li>
+          </ul>
         </div>
-        <ul>
-          <li class="active">
-            <a href="">All</a>
-          </li>
-          <li
-            *ngFor="let categorie of productCategories"
-            [ngClass]="{ active: activeCategory === categorie }"
-            (click)="setActiveCategory(categorie)"
+        <div class="price-range mt-4">
+          <div class="heading">
+            <i class="bi bi-coin"></i>
+            <h5>Price range:</h5>
+          </div>
+          <mat-slider
+            [min]="minPriceRangeValue"
+            [max]="maxPriceRangeValue"
+            (input)="updateSliderValue($event)"
           >
-            <a>{{ categorie | capitalize }}</a>
-          </li>
-        </ul>
+            <input
+              [value]="startValue"
+              matSliderStartThumb
+              [formControl]="sliderLeft"
+            />
+            <input
+              [value]="endValue"
+              matSliderEndThumb
+              [formControl]="sliderRight"
+            />
+          </mat-slider>
+
+          <div class="slider-value mb-4">
+            <span> {{ sliderLeft.value }} </span>
+            <span> {{ sliderRight.value }} </span>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="pagination">
+      <button
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+      <button
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
     </div>
   </div>
 </div>
+<router-outlet />

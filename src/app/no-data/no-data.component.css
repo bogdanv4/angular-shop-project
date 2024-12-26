@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container-fluid {
+  border: 2px solid #262626;
+  border-radius: 10px;
+  padding: 20px;
+
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    h2 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    i {
+      font-size: 30px;
+    }
+  }
+}

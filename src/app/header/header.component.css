@@ -3,6 +3,9 @@ header {
 }
 nav {
   background-color: #141414 !important;
+  background-image: url("../../../public/lines.svg");
+  background-position: center;
+  background-size: cover;
 
   .logo {
     font-size: 30px;
@@ -13,7 +16,6 @@ nav {
     border: 2px solid #262626;
     border-radius: 20px;
     padding: 0 20px;
-    margin: 10px 0;
     ul {
       li {
         a {
@@ -33,6 +35,10 @@ nav {
           padding: 5px;
           color: #fff;
 
+          i {
+            margin-right: 5px;
+          }
+
           &:last-child {
             padding: 3px 5px;
           }
@@ -40,4 +46,42 @@ nav {
       }
     }
   }
+}
+
+@media (max-width: 992px) {
+  .navbar > .container {
+    padding: 0 10px;
+    a {
+      order: 2;
+    }
+    button {
+      order: 1;
+    }
+    .navbar-icons {
+      order: 3;
+    }
+  }
+  .navbar-collapse {
+    margin-bottom: 20px;
+  }
+  nav {
+    .navbar-icons {
+      ul {
+        flex-direction: row;
+        li {
+          a {
+            i {
+              margin-right: 0;
+            }
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
 }

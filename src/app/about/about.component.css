@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container-fluid {
+  background-color: #141414;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    h1 {
+      letter-spacing: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding-bottom: 20px;
+      position: relative;
+      &::after {
+        position: absolute;
+        content: "";
+        height: 2px;
+        width: 300px;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+      }
+    }
+    h4 {
+      letter-spacing: 2px;
+    }
+  }
+}
