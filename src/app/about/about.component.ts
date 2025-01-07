@@ -8,7 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrl: './about.component.css',
 })
 export class AboutComponent implements OnInit, OnDestroy {
-  finalDate: number = new Date('Dec 28, 2024').getTime();
+  finalDate: number = new Date('Dec 28, 2025').getTime();
   now!: number;
   time!: string;
   intervalId!: number;

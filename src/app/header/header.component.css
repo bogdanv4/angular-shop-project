@@ -20,6 +20,11 @@ nav {
       li {
         a {
           color: #fff;
+
+          &:hover {
+            transform: scale(1.2);
+            transition: 0.3s;
+          }
         }
       }
     }
@@ -28,8 +33,9 @@ nav {
   .navbar-icons {
     ul {
       li {
-        border: 2px solid #262626;
-        border-radius: 8px;
+        border-right: 2px solid #262626;
+        /* border-radius: 8px; */
+        padding-right: 10px;
 
         a {
           padding: 5px;
@@ -37,11 +43,24 @@ nav {
 
           i {
             margin-right: 5px;
+
+            &:last-child {
+              margin-right: 0;
+            }
           }
 
           &:last-child {
             padding: 3px 5px;
+            border-right: none;
           }
+
+          &:hover {
+            transform: scale(1.2);
+            transition: 0.3s;
+          }
+        }
+        &:last-child {
+          border-right: none;
         }
       }
     }
