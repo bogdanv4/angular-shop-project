@@ -1,27 +1,20 @@
 <div class="container-fluid py-5">
   <div class="container">
     <div class="search-and-cart pb-4">
-      <!-- <form>
-        <div class="search">
-          <input
-            type="text"
-            name="search"
-            placeholder="Search..."
-            [(ngModel)]="listFilter"
-            (ngModelChange)="filterProductsBySearch()"
-          />
-          <a class="search-button">
-            <i class="bi bi-search"></i>
-          </a>
-        </div>
-      </form> -->
-      <!-- <div class="cart">
-        <div class="notify-icon" *ngIf="showNotifyIcon"><span>1</span></div>
-        <h5>Your cart:</h5>
-        <a routerLink="/cart">
-          <i class="bi bi-cart cart-icon"></i>
-        </a>
-      </div> -->
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="switchFilters"
+          [checked]="showFilters"
+          (change)="toggleFilters($event)"
+        />
+        <label class="form-check-label text-light" or="switchFilters">
+          {{ showFilters ? "Hide Filters" : "Show Filters" }}
+        </label>
+      </div>
+      <a href="">Reset Filters</a>
     </div>
 
     <div class="spinner-container" *ngIf="isLoading$ | async">
@@ -30,7 +23,11 @@
       </div>
     </div>
 
-    <div class="grid-and-categories" *ngIf="!(isLoading$ | async)">
+    <div
+      class="grid-and-categories"
+      [ngClass]="{ 'filters-hidden': !showFilters }"
+      *ngIf="!(isLoading$ | async)"
+    >
       <app-server-error
         *ngIf="error$ | async as errorMessage"
         [errorMessage]="errorMessage"
@@ -39,6 +36,72 @@
       <app-no-data
         *ngIf="filteredProducts.length === 0 && !error$"
       ></app-no-data>
+
+      <div class="categories-and-price-range" *ngIf="showFilters">
+        <div class="heading mt-3">
+          <i class="bi bi-search"></i>
+          <h5 class="text-light">Search:</h5>
+        </div>
+        <div class="search-wrapper mt-4">
+          <form>
+            <div class="search">
+              <input
+                type="text"
+                name="search"
+                placeholder="Search..."
+                [(ngModel)]="listFilter"
+                (ngModelChange)="filterProductsBySearch()"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="heading mt-5">
+          <i class="bi bi-ui-checks-grid"></i>
+          <h5 class="text-light">Categories:</h5>
+        </div>
+
+        <div class="categories">
+          <ul>
+            <li class="active" (click)="setActiveCategory('')">
+              <a href="">All</a>
+            </li>
+            <li
+              *ngFor="let category of categories$ | async"
+              [ngClass]="{ active: activeCategory === category }"
+              (click)="setActiveCategory(category)"
+            >
+              <a>{{ category | capitalize }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="heading mt-5">
+          <i class="bi bi-coin"></i>
+          <h5 class="text-light">Price range:</h5>
+        </div>
+        <div class="price-range">
+          <mat-slider
+            [min]="minPriceRangeValue"
+            [max]="maxPriceRangeValue"
+            (input)="updateSliderValue($event)"
+          >
+            <input
+              [value]="startValue"
+              matSliderStartThumb
+              [formControl]="sliderLeft"
+            />
+            <input
+              [value]="endValue"
+              matSliderEndThumb
+              [formControl]="sliderRight"
+            />
+          </mat-slider>
+
+          <div class="slider-value mb-4">
+            <span> {{ sliderLeft.value }} </span>
+            <span> {{ sliderRight.value }} </span>
+          </div>
+        </div>
+      </div>
 
       <div class="grid" *ngIf="filteredProducts.length > 0">
         <div class="card p-4" *ngFor="let product of filteredProducts">
@@ -67,68 +130,6 @@
                 >Add to cart</a
               >
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="categories-and-price-range">
-        <form>
-          <div class="search">
-            <input
-              type="text"
-              name="search"
-              placeholder="Search..."
-              [(ngModel)]="listFilter"
-              (ngModelChange)="filterProductsBySearch()"
-            />
-            <a class="search-button">
-              <i class="bi bi-search"></i>
-            </a>
-          </div>
-        </form>
-        <div class="categories mt-4">
-          <div class="heading">
-            <i class="bi bi-ui-checks-grid"></i>
-            <h5>Categories:</h5>
-          </div>
-          <ul>
-            <li class="active" (click)="setActiveCategory('')">
-              <a href="">All</a>
-            </li>
-            <li
-              *ngFor="let category of categories$ | async"
-              [ngClass]="{ active: activeCategory === category }"
-              (click)="setActiveCategory(category)"
-            >
-              <a>{{ category | capitalize }}</a>
-            </li>
-          </ul>
-        </div>
-        <div class="price-range mt-4">
-          <div class="heading">
-            <i class="bi bi-coin"></i>
-            <h5>Price range:</h5>
-          </div>
-          <mat-slider
-            [min]="minPriceRangeValue"
-            [max]="maxPriceRangeValue"
-            (input)="updateSliderValue($event)"
-          >
-            <input
-              [value]="startValue"
-              matSliderStartThumb
-              [formControl]="sliderLeft"
-            />
-            <input
-              [value]="endValue"
-              matSliderEndThumb
-              [formControl]="sliderRight"
-            />
-          </mat-slider>
-
-          <div class="slider-value mb-4">
-            <span> {{ sliderLeft.value }} </span>
-            <span> {{ sliderRight.value }} </span>
           </div>
         </div>
       </div>

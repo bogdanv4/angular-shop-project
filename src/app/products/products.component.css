@@ -2,6 +2,24 @@
   background-color: #141414;
 }
 
+.form-check-input {
+  background-color: transparent;
+  border-color: #753ff1;
+  --bs-form-switch-bg: #753ff1;
+}
+
+.form-check-input:checked {
+  background-color: #753ff1;
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+}
+
+.form-check-label {
+  letter-spacing: 1.5px;
+}
+
 .search-and-cart {
   display: flex;
   justify-content: space-between;
@@ -50,7 +68,7 @@ form {
       outline: none;
       border: 2px solid #262626;
       border-radius: 10px;
-      padding: 15px 0 15px 60px;
+      padding: 15px;
       color: #fff;
     }
 
@@ -75,6 +93,10 @@ form {
   gap: 20px;
   align-items: flex-start;
   justify-content: center;
+
+  &.filters-hidden {
+    display: block;
+  }
 
   app-no-data,
   app-server-error {
@@ -140,23 +162,30 @@ form {
   .categories-and-price-range {
     width: 25%;
     margin-left: auto;
+    border: 2px solid #262626;
+    border-radius: 10px;
+    padding: 20px;
+
+    .heading {
+      display: flex;
+      gap: 10px;
+
+      h5 {
+        margin-bottom: 0;
+      }
+
+      i {
+        color: #753ff1;
+        font-size: 18px;
+      }
+    }
+
     .categories {
-      border: 2px solid #262626;
       border-radius: 10px;
       padding-top: 20px;
       color: #fff;
       height: 50vh;
       overflow-y: scroll;
-
-      .heading {
-        padding-left: 10px;
-        display: flex;
-        gap: 10px;
-
-        i {
-          color: #753ff1;
-        }
-      }
 
       &::-webkit-scrollbar {
         background-color: transparent;
@@ -190,34 +219,17 @@ form {
       }
     }
     .price-range {
-      border: 2px solid #262626;
       border-radius: 10px;
       padding-top: 20px;
       color: #fff;
 
-      .heading {
-        padding-left: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-        i {
-          color: #753ff1;
-          font-size: 20px;
-        }
-        h5 {
-          margin-bottom: 0;
-        }
-      }
-
       mat-slider {
-        width: 90%;
+        width: 95%;
         margin: 0 auto;
         display: flex;
         justify-content: center;
         align-items: center;
 
-        /* background-color: #753ff1; */
         input {
           &:first-of-type {
             left: 0;
@@ -228,7 +240,7 @@ form {
         }
       }
       .slider-value {
-        width: 90%;
+        width: 95%;
         display: flex;
         justify-content: space-between;
         margin: auto;
@@ -280,7 +292,7 @@ form {
     width: 100%;
   }
   .grid-and-categories {
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     .grid {
       grid-template-columns: repeat(2, 1fr);

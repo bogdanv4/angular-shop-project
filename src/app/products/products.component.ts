@@ -69,6 +69,9 @@ export class ProductsComponent implements OnInit {
   // Cart notification icon
   showNotifyIcon: boolean = false;
 
+  // Switch for filters sidebar
+  showFilters: boolean = true;
+
   constructor(private store: Store) {
     this.products$ = this.store.select(selectProducts);
     this.categories$ = this.store.select(selectCategories);
@@ -184,5 +187,10 @@ export class ProductsComponent implements OnInit {
     setTimeout(() => {
       this.showNotifyIcon = false;
     }, 5000);
+  }
+
+  toggleFilters(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.showFilters = input.checked;
   }
 }
