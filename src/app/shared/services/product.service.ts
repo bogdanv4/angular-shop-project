@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IProduct } from '../models/product';
 
 @Injectable({
@@ -15,37 +15,29 @@ export class ProductService {
   }
 
   getProducts(): Observable<IProduct[]> {
-    return this.http
-      .get<IProduct[]>(this.urlProducts)
-      .pipe(tap((data) => console.log('All', JSON.stringify(data))));
+    return this.http.get<IProduct[]>(this.urlProducts);
   }
 
   getSingleProduct(id: number): Observable<IProduct> {
-    return this.http
-      .get<IProduct>(`https://dummyjson.com/products/${id}`)
-      .pipe(tap((data) => console.log('All', JSON.stringify(data))));
+    return this.http.get<IProduct>(`https://dummyjson.com/products/${id}`);
   }
 
   getCategories(): Observable<string[]> {
-    return this.http
-      .get<string[]>(this.urlCategories)
-      .pipe(tap((data) => console.log('All', JSON.stringify(data))));
+    return this.http.get<string[]>(this.urlCategories);
   }
 
   getProductsByCategories(category: string): Observable<IProduct[]> {
-    return this.http
-      .get<IProduct[]>(`https://dummyjson.com/products/category/${category}`)
-      .pipe(tap((data) => console.log('All', JSON.stringify(data))));
+    return this.http.get<IProduct[]>(
+      `https://dummyjson.com/products/category/${category}`
+    );
   }
 
   getProductsWithPagination(
     limit: number,
     skip: number
   ): Observable<IProduct[]> {
-    return this.http
-      .get<IProduct[]>(
-        `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
-      )
-      .pipe(tap((data) => console.log('All', JSON.stringify(data))));
+    return this.http.get<IProduct[]>(
+      `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
+    );
   }
 }

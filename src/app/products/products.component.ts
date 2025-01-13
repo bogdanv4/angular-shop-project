@@ -66,9 +66,6 @@ export class ProductsComponent implements OnInit {
   sliderLeft!: FormControl;
   sliderRight!: FormControl;
 
-  // Cart notification icon
-  showNotifyIcon: boolean = false;
-
   // Switch for filters sidebar
   showFilters: boolean = true;
 
@@ -182,11 +179,6 @@ export class ProductsComponent implements OnInit {
   addToCart(product: IProduct): void {
     this.store.dispatch(addToCart({ product }));
     alert('Product has been added to your cart');
-    this.showNotifyIcon = true;
-
-    setTimeout(() => {
-      this.showNotifyIcon = false;
-    }, 5000);
   }
 
   toggleFilters(event: Event): void {
