@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IUser } from '../shared/models/user';
-import { registerUser } from '../state/actions/user.actions';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -19,8 +18,6 @@ import {
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  validationErrors: string[] = [];
-
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
